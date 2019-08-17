@@ -1,2 +1,2 @@
 VirtualEnv
-https://github.com/alirezahi/DjangoCourse-2019.git
+https://virtualenvwrapper.readthedocs.io/en/latest/
