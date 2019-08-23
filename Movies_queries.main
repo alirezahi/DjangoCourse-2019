@@ -1,0 +1,70 @@
+1. List of all mvoies
+   1. Movie.objects.all()
+2. Count of all movies
+   1. Movie.objects.all().count()
+   2. Movie.objects.count() # shortand of previous query
+3. First movie
+   1. Movie.objects.all().first()
+   2. Movie.objects.first() # shortand of previous query
+4. Last movie
+   1.  Movie.objects.all().last()
+   2. Movie.objects.last() # shortand of previous query
+5. Get the third movie
+   1. Movie.objects.all()[2] # indexes start from 0
+6. Get movies with the index of 2 and 3
+   1. Movie.objects.all()[2:4]
+   2.[ Movie.objects.all()[2], Movie.objects.all()[3] ]
+7. List of movies ordered by their release date
+   1. Movie.objects.all().order_by('release_date')
+8. List of movies ordered by their release date descending
+   1. Movie.objects.all().order_by('-release_date')
+9. Get the movie with the value ID of 341
+   1. Movie.objects.get(id=341)
+10. List of movies that are for adults
+    1.  Movie.objects.filter(is_adult=True)
+11. List of Movies including 'blood' (case-insensitive)
+    1.  Movie.objects.filter(title__icontains='blood')
+12. List of Movies starting with 'blood' (case-insensitive)
+    1.  Movie.objects.filter(title__startswith='blood')
+13. List of Movies ending with 'blood' (case-insensitive)
+    1.  Movie.objects.filter(title__endswith='blood')
+14. Count of Movies including 'toy' but not including 'story
+    1.  Movie.objects.filter(title__icontains='story').exclude(title__icontains='story')
+15. Movies that one of its cast is 'Tom Hanks'
+    1.  Movie.objects.filter(casts__name='Tom Hanks')
+16. Movies that one of its cast is 'Tom Hanks' or 'Tim Allen'
+    1.  Movie.objects.filter(casts__name__in=['Tom Hanks','Tim Allen'])
+17. Movies that its cast have both 'Tom Hanks' and 'Tim Allen'
+    1.  Movie.objects.filter(casts__name='Tom Hanks').filter(casts__name='Tim Allen')
+18. Movies that one of its cast is 'Tom Hanks' and excluding 'Tim Allen'
+    1.  Movie.objects.filter(casts__name='Tom Hanks').exclude(casts__name='Tim Allen')
+19. Movies that their runtime are more than 90 minutes
+    1.  Movie.objects.filter(runtime__gt=90)
+20. Movies that their runtime are more than equal to 90 minutes
+    1.  Movie.objects.filter(runtime__gte=90)
+21. Movies that their revenue is more than twice of the budget
+    1.  from django.db.models import F
+        Movie.objects.filter(revenue__gt=F('budget')*2)
+22. Movies that the director is one of the cast
+    1.  Movie.objects.filter(casts__name=F('director__name'))
+23. The most language used in movies
+    1.  Movie.objects.all().values('original_language').annotate(num=Count('original_language')).order_by('-num').first()
+24. Company which has the most number of movies
+    1.  Company.objects.annotate(num=Count('movies_of_company')).values('num','name').order_by('-num').first()
+25. Movies that of their genre is Comedy
+    1.   Movie.objects.filter(genres__name='Comedy')
+26. Average of movies average_vote
+    1.  Movie.objects.all().aggregate(Avg('vote_average'))
+27. Last movie of the year of 2002
+    1.  Movie.objects.filter(release_date__year=2002).last()
+28. Movies that has runtime more than 50 min or Leonardo Dicaprio is one of its casts
+    1.  from django.db.models import Q
+        Movie.objects.filter(Q(runtime__gt=50) | Q(casts__name='Leonardo DiCaprio')).distinct()
+    2.  (Movie.objects.filter(runtime__gt=50) | Movie.objects.filter(casts__name='Leonardo DiCaprio')).distinct() # pythonic way
+29. Movies that length of their title is more than 20 letters
+    1.  from django.db.models.functions import Length
+        Movie.objects.annotate(text_len=Length('title')).filter(text_len__gt=20)
+30. List of movies that all of their casts all men
+    1.  Movie.objects.exlude(casts__gender__in=[0,1])
+31. Aggregate numbers of cast for each movie
+    1.   Movie.objects.annotate(casts_num=Count('casts'))
