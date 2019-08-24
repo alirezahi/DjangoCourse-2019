@@ -15,5 +15,5 @@ Add your static file to html:
 
 ~~~
 {% load static %}
-<link rel="stylesheet" href="{% static "static/boostrap.min.css %}">
+<link rel="stylesheet" href="{% static 'boostrap.min.css' %}">
 ~~~
