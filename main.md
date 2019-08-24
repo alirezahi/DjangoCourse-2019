@@ -103,3 +103,6 @@ Count
 ```
 Book.objects.all().count()
 ```
+
+Admin Django Customize:
+https://docs.djangoproject.com/en/2.2/ref/contrib/admin/
